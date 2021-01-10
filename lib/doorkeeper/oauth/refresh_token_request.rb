@@ -55,7 +55,7 @@ module Doorkeeper
       def access_token_attributes
         {
           application_id: refresh_token.application_id,
-          resource_owner_id: refresh_token.resource_owner_id,
+          resource: refresh_token.resource,
           scopes: scopes.to_s,
           expires_in: access_token_expires_in,
           use_refresh_token: true

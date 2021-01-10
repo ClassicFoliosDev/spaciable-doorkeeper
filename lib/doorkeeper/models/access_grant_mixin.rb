@@ -43,7 +43,7 @@ module Doorkeeper
       #
       def revoke_all_for(application_id, resource_owner, clock = Time)
         where(application_id: application_id,
-              resource_owner_id: resource_owner.id,
+              resource: resource_owner,
               revoked_at: nil)
           .update_all(revoked_at: clock.now.utc)
       end

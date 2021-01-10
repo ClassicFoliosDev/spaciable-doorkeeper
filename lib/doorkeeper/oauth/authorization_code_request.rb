@@ -35,7 +35,7 @@ module Doorkeeper
 
           grant.revoke
           find_or_create_access_token(grant.application,
-                                      grant.resource_owner_id,
+                                      grant.resource,
                                       grant.scopes,
                                       server)
         end

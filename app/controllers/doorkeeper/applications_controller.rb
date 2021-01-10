@@ -80,7 +80,7 @@ module Doorkeeper
 
     def application_params
       params.require(:doorkeeper_application)
-        .permit(:name, :redirect_uri, :scopes, :confidential)
+        .permit(:name, :redirect_uri, :scope, :confidential)
     end
   end
 end
