@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Doorkeeper
   class AccessGrant < ActiveRecord::Base
     belongs_to :resource, polymorphic: true
@@ -7,7 +9,7 @@ module Doorkeeper
     include ActiveModel::MassAssignmentSecurity if defined?(::ProtectedAttributes)
 
     belongs_to_options = {
-      class_name: 'Doorkeeper::Application',
+      class_name: "Doorkeeper::Application",
       inverse_of: :access_grants
     }
 

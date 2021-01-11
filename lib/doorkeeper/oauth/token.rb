@@ -8,19 +8,19 @@ module Doorkeeper
           methods.inject(nil) do |_, method|
             method = self.method(method) if method.is_a?(Symbol)
             credentials = method.call(request)
-            break credentials unless credentials.blank?
+            break credentials if credentials.present?
           end
         end
 
         def authenticate(request, *methods)
-          if (token = from_request(request, *methods))
-            access_token = AccessToken.by_token(token)
-            refresh_token_enabled = Doorkeeper.configuration.refresh_token_enabled?
-            if access_token.present? && refresh_token_enabled
-              access_token.revoke_previous_refresh_token!
-            end
-            access_token
+          return unless (token = from_request(request, *methods))
+
+          access_token = AccessToken.by_token(token)
+          refresh_token_enabled = Doorkeeper.configuration.refresh_token_enabled?
+          if access_token.present? && refresh_token_enabled
+            access_token.revoke_previous_refresh_token!
           end
+          access_token
         end
 
         def from_access_token_param(request)
@@ -55,7 +55,7 @@ module Doorkeeper
         end
 
         def token_from_header(header, pattern)
-          header.gsub pattern, ''
+          header.gsub pattern, ""
         end
 
         def match?(header, pattern)

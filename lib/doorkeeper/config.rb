@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 module Doorkeeper
   class MissingConfiguration < StandardError
     # Defines a MissingConfiguration error for a missing Doorkeeper
     # configuration
     def initialize
-      super('Configuration for doorkeeper missing. Do you have doorkeeper initializer?')
+      super("Configuration for doorkeeper missing. Do you have doorkeeper initializer?")
     end
   end
 
@@ -202,7 +204,7 @@ module Doorkeeper
            as: :authenticate_resource_owner,
            default: (lambda do |_routes|
              ::Rails.logger.warn(
-               I18n.t('doorkeeper.errors.messages.resource_owner_authenticator_not_configured')
+               I18n.t("doorkeeper.errors.messages.resource_owner_authenticator_not_configured")
              )
 
              nil
@@ -212,7 +214,7 @@ module Doorkeeper
            as: :authenticate_admin,
            default: (lambda do |_routes|
              ::Rails.logger.warn(
-               I18n.t('doorkeeper.errors.messages.admin_authenticator_not_configured')
+               I18n.t("doorkeeper.errors.messages.admin_authenticator_not_configured")
              )
 
              head :forbidden
@@ -221,7 +223,7 @@ module Doorkeeper
     option :resource_owner_from_credentials,
            default: (lambda do |_routes|
              ::Rails.logger.warn(
-               I18n.t('doorkeeper.errors.messages.credential_flow_not_configured')
+               I18n.t("doorkeeper.errors.messages.credential_flow_not_configured")
              )
 
              nil
@@ -236,7 +238,7 @@ module Doorkeeper
     option :custom_access_token_expires_in, default: ->(_context) { nil }
     option :authorization_code_expires_in,  default: 600
     option :orm,                            default: :active_record
-    option :native_redirect_uri,            default: 'urn:ietf:wg:oauth:2.0:oob'
+    option :native_redirect_uri,            default: "urn:ietf:wg:oauth:2.0:oob"
     option :active_record_options,          default: {}
     option :grant_flows,                    default: %w[authorization_code client_credentials]
     option :handle_auth_errors,             default: :render
@@ -252,7 +254,7 @@ module Doorkeeper
     #
     # @param realm [String] ("Doorkeeper") Authentication realm
     #
-    option :realm,                          default: 'Doorkeeper'
+    option :realm,                          default: "Doorkeeper"
 
     # Forces the usage of the HTTPS protocol in non-native redirect uris
     # (enabled by default in non-development environments). OAuth2
@@ -276,7 +278,7 @@ module Doorkeeper
     #   the name of the access token generator class
     #
     option :access_token_generator,
-           default: 'Doorkeeper::OAuth::Helpers::UniqueToken'
+           default: "Doorkeeper::OAuth::Helpers::UniqueToken"
 
     # The controller Doorkeeper::ApplicationController inherits from.
     # Defaults to ActionController::Base.
@@ -284,7 +286,7 @@ module Doorkeeper
     #
     # @param base_controller [String] the name of the base controller
     option :base_controller,
-           default: 'ActionController::Base'
+           default: "ActionController::Base"
 
     attr_reader :reuse_access_token
     attr_reader :api_only
@@ -352,22 +354,22 @@ module Doorkeeper
 
     private
 
-    # Determines what values are acceptable for 'response_type' param in
+    # Determines what values are acceptable for "response_type" param in
     # authorization request endpoint, and return them as an array of strings.
     #
     def calculate_authorization_response_types
       types = []
-      types << 'code'  if grant_flows.include? 'authorization_code'
-      types << 'token' if grant_flows.include? 'implicit'
+      types << "code"  if grant_flows.include? "authorization_code"
+      types << "token" if grant_flows.include? "implicit"
       types
     end
 
-    # Determines what values are acceptable for 'grant_type' param token
+    # Determines what values are acceptable for "grant_type" param token
     # request endpoint, and return them in array.
     #
     def calculate_token_grant_types
-      types = grant_flows - ['implicit']
-      types << 'refresh_token' if refresh_token_enabled?
+      types = grant_flows - ["implicit"]
+      types << "refresh_token" if refresh_token_enabled?
       types
     end
   end

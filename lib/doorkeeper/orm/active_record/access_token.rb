@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Doorkeeper
   class AccessToken < ActiveRecord::Base
     belongs_to :resource, polymorphic: true
@@ -7,7 +9,7 @@ module Doorkeeper
     include ActiveModel::MassAssignmentSecurity if defined?(::ProtectedAttributes)
 
     belongs_to_options = {
-      class_name: 'Doorkeeper::Application',
+      class_name: "Doorkeeper::Application",
       inverse_of: :access_tokens
     }
 
@@ -42,7 +44,7 @@ module Doorkeeper
     end
 
     def self.refresh_token_revoked_on_use?
-      column_names.include?('previous_refresh_token')
+      column_names.include?("previous_refresh_token")
     end
   end
 end

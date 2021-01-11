@@ -5,8 +5,8 @@ module Doorkeeper
     include ApplicationMixin
     include ActiveModel::MassAssignmentSecurity if defined?(::ProtectedAttributes)
 
-    has_many :access_grants, dependent: :delete_all, class_name: 'Doorkeeper::AccessGrant'
-    has_many :access_tokens, dependent: :delete_all, class_name: 'Doorkeeper::AccessToken'
+    has_many :access_grants, dependent: :delete_all, class_name: "Doorkeeper::AccessGrant"
+    has_many :access_tokens, dependent: :delete_all, class_name: "Doorkeeper::AccessToken"
 
     validates :name, :secret, :uid, presence: true
     validates :uid, uniqueness: true
@@ -17,7 +17,7 @@ module Doorkeeper
 
     before_validation :generate_uid, :generate_secret, on: :create
 
-    has_many :authorized_tokens, -> { where(revoked_at: nil) }, class_name: 'AccessToken'
+    has_many :authorized_tokens, -> { where(revoked_at: nil) }, class_name: "AccessToken"
     has_many :authorized_applications, through: :authorized_tokens, source: :application
 
     # Returns Applications associated with active (not revoked) Access Tokens
@@ -45,7 +45,7 @@ module Doorkeeper
       AccessGrant.revoke_all_for(id, resource_owner)
     end
 
-    # Represents client as set of it's attributes in JSON format.
+    # Represents client as set of it"s attributes in JSON format.
     # This is the right way how we want to override ActiveRecord #to_json.
     #
     # Respects privacy settings and serializes minimum set of attributes
@@ -54,14 +54,14 @@ module Doorkeeper
     # @return [Hash] entity attributes for JSON
     #
     def as_json(options = {})
-      # if application belongs to some owner we need to check if it's the same as
+      # if application belongs to some owner we need to check if it"s the same as
       # the one passed in the options or check if we render the client as an owner
       if (respond_to?(:owner) && owner && owner == options[:current_resource_owner]) ||
          options[:as_owner]
         # Owners can see all the client attributes, fallback to ActiveModel serialization
         super
       else
-        # if application has no owner or it's owner doesn't match one from the options
+        # if application has no owner or it"s owner doesn"t match one from the options
         # we render only minimum set of attributes that could be exposed to a public
         only = extract_serializable_attributes(options)
         super(options.merge(only: only))
@@ -90,35 +90,34 @@ module Doorkeeper
     end
 
     # Helper method to extract collection of serializable attribute names
-     # considering serialization options (like `only`, `except` and so on).
-     #
-     # @param options [Hash] serialization options
-     #
-     # @return [Array<String>]
-     #   collection of attributes to be serialized using #as_json
-     #
-     def extract_serializable_attributes(options = {})
-       opts = options.try(:dup) || {}
-       only = Array.wrap(opts[:only]).map(&:to_s)
+    # considering serialization options (like `only`, `except` and so on).
+    #
+    # @param options [Hash] serialization options
+    #
+    # @return [Array<String>]
+    # collection of attributes to be serialized using #as_json
+    def extract_serializable_attributes(options = {})
+      opts = options.try(:dup) || {}
+      only = Array.wrap(opts[:only]).map(&:to_s)
 
-       only = if only.blank?
-                serializable_attributes
-              else
-                only & serializable_attributes
-              end
+      only = if only.blank?
+               serializable_attributes
+             else
+               only & serializable_attributes
+             end
 
-       only -= Array.wrap(opts[:except]).map(&:to_s) if opts.key?(:except)
-       only.uniq
-     end
+      only -= Array.wrap(opts[:except]).map(&:to_s) if opts.key?(:except)
+      only.uniq
+    end
 
-     # Collection of attributes that could be serialized for public.
-     # Override this method if you need additional attributes to be serialized.
-     #
-     # @return [Array<String>] collection of serializable attributes
-     def serializable_attributes
-       attributes = %w[id name created_at]
-       attributes << "uid" unless confidential?
-       attributes
-     end
+    # Collection of attributes that could be serialized for public.
+    # Override this method if you need additional attributes to be serialized.
+    #
+    # @return [Array<String>] collection of serializable attributes
+    def serializable_attributes
+      attributes = %w[id name created_at]
+      attributes << "uid" unless confidential?
+      attributes
+    end
   end
 end

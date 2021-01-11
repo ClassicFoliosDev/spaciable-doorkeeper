@@ -21,10 +21,10 @@ module Doorkeeper
         @original_scopes = parameters[:scope] || parameters[:scopes]
         @refresh_token_parameter = parameters[:refresh_token]
 
-        if credentials
-          @client = Application.by_uid_and_secret credentials.uid,
-                                                  credentials.secret
-        end
+        return unless credentials
+
+        @client = Application.by_uid_and_secret credentials.uid,
+                                                credentials.secret
       end
 
       private

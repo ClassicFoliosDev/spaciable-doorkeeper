@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'doorkeeper/rails/routes/mapping'
-require 'doorkeeper/rails/routes/mapper'
+require "doorkeeper/rails/routes/mapping"
+require "doorkeeper/rails/routes/mapper"
 
 module Doorkeeper
   module Rails
@@ -26,13 +26,12 @@ module Doorkeeper
         @routes = routes
         @mapping = Mapper.new.map(&block)
 
-        if Doorkeeper.configuration.api_only
-          @mapping.skips.push(:applications, :authorized_applications)
-        end
+        return unless Doorkeeper.configuration.api_only
+        @mapping.skips.push(:applications, :authorized_applications)
       end
 
       def generate_routes!(options)
-        routes.scope options[:scope] || 'oauth', as: 'oauth' do
+        routes.scope options[:scope] || "oauth", as: "oauth" do
           map_route(:authorizations, :authorization_routes)
           map_route(:tokens, :token_routes)
           map_route(:tokens, :revoke_routes)
@@ -56,37 +55,37 @@ module Doorkeeper
       def authorization_routes(mapping)
         routes.resource(
           :authorization,
-          path: 'authorize',
+          path: "authorize",
           only: %i[create destroy],
           as: mapping[:as],
           controller: mapping[:controllers]
         ) do
-          routes.get '/native', action: :show, on: :member
-          routes.get '/', action: :new, on: :member
+          routes.get "/native", action: :show, on: :member
+          routes.get "/", action: :new, on: :member
         end
       end
 
       def token_routes(mapping)
         routes.resource(
           :token,
-          path: 'token',
+          path: "token",
           only: [:create], as: mapping[:as],
           controller: mapping[:controllers]
         )
       end
 
       def revoke_routes(mapping)
-        routes.post 'revoke', controller: mapping[:controllers], action: :revoke
+        routes.post "revoke", controller: mapping[:controllers], action: :revoke
       end
 
       def introspect_routes(mapping)
-        routes.post 'introspect', controller: mapping[:controllers], action: :introspect
+        routes.post "introspect", controller: mapping[:controllers], action: :introspect
       end
 
       def token_info_routes(mapping)
         routes.resource(
           :token_info,
-          path: 'token/info',
+          path: "token/info",
           only: [:show], as: mapping[:as],
           controller: mapping[:controllers]
         )
@@ -96,7 +95,7 @@ module Doorkeeper
         routes.resources :doorkeeper_applications,
                          controller: mapping[:controllers],
                          as: :applications,
-                         path: 'applications'
+                         path: "applications"
       end
 
       def authorized_applications_routes(mapping)

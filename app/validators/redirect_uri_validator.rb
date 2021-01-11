@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'uri'
+require "uri"
 
 class RedirectUriValidator < ActiveModel::EachValidator
   def self.native_redirect_uri
@@ -36,7 +36,7 @@ class RedirectUriValidator < ActiveModel::EachValidator
 
   def invalid_ssl_uri?(uri)
     forces_ssl = Doorkeeper.configuration.force_ssl_in_redirect_uri
-    non_https = uri.try(:scheme) == 'http'
+    non_https = uri.try(:scheme) == "http"
 
     if forces_ssl.respond_to?(:call)
       forces_ssl.call(uri) && non_https

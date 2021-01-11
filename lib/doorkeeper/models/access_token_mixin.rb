@@ -169,7 +169,7 @@ module Doorkeeper
     #   The OAuth 2.0 Authorization Framework: Bearer Token Usage
     #
     def token_type
-      'Bearer'
+      "Bearer"
     end
 
     def use_refresh_token?

@@ -55,7 +55,7 @@ module Doorkeeper
       end
 
       def enforce_content_type
-        return if request.content_type == 'application/x-www-form-urlencoded'
+        return if request.content_type == "application/x-www-form-urlencoded"
         render json: {}, status: :unsupported_media_type
       end
     end

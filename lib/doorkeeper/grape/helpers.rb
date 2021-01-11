@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'doorkeeper/grape/authorization_decorator'
+require "doorkeeper/grape/authorization_decorator"
 
 module Doorkeeper
   module Grape
@@ -14,7 +14,7 @@ module Doorkeeper
         endpoint_scopes = endpoint.route_setting(:scopes) || endpoint.options[:route_options][:scopes]
         scopes = if endpoint_scopes
                    Doorkeeper::OAuth::Scopes.from_array(endpoint_scopes)
-                 elsif scopes && !scopes.empty?
+                 elsif scopes.present?
                    Doorkeeper::OAuth::Scopes.from_array(scopes)
                  end
 
@@ -29,7 +29,7 @@ module Doorkeeper
       private
 
       def endpoint
-        env['api.endpoint']
+        env["api.endpoint"]
       end
 
       def doorkeeper_token

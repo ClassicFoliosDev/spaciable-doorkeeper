@@ -12,17 +12,16 @@ module Doorkeeper
       end
 
       def self.find(uid, method = Application.method(:by_uid))
-        if (application = method.call(uid))
-          new(application)
-        end
+        return unless (application = method.call(uid))
+
+        new(application)
       end
 
       def self.authenticate(credentials, method = Application.method(:by_uid_and_secret))
         return false if credentials.blank?
+        return unless (application = method.call(credentials.uid, credentials.secret))
 
-        if (application = method.call(credentials.uid, credentials.secret))
-          new(application)
-        end
+        new(application)
       end
     end
   end
