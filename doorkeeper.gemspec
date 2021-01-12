@@ -3,11 +3,11 @@ $LOAD_PATH.push File.expand_path("../lib", __FILE__)
 require "doorkeeper/version"
 
 Gem::Specification.new do |gem|
-  gem.name        = "spaciable_doorkeeper"
+  gem.name        = "doorkeeper"
   gem.version     = Doorkeeper.gem_version
   gem.authors     = ["jason mardell"]
   gem.email       = %w[jasonm@classicfolios.com]
-  gem.homepage    = "https://github.com/doorkeeper-gem/spaciable-doorkeeper"
+  gem.homepage    = "https://github.com/ClassicFoliosDev/spaciable-doorkeeper"
   gem.summary     = "OAuth 2 provider for Rails and Grape with polymorphic resources"
   gem.description = "Spaciable Doorkeeper is an OAuth 2 provider with polymorphic resources for Rails."
   gem.license     = "MIT"
