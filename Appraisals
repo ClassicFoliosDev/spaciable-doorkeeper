@@ -13,6 +13,6 @@ appraise "rails-5-1" do
 end
 
 appraise "rails-master" do
-  gem "rails", git: 'https://github.com/rails/rails'
-  gem "arel", git: 'https://github.com/rails/arel'
+  gem "rails", git: "https://github.com/rails/rails"
+  gem "arel", git: "https://github.com/rails/arel"
 end

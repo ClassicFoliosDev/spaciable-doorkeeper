@@ -50,10 +50,10 @@ module Doorkeeper
 
       def headers
         {
-          'Cache-Control' => 'no-store',
-          'Pragma' => 'no-cache',
-          'Content-Type' => 'application/json; charset=utf-8',
-          'WWW-Authenticate' => authenticate_info
+          "Cache-Control" => "no-store",
+          "Pragma" => "no-cache",
+          "Content-Type" => "application/json; charset=utf-8",
+          "WWW-Authenticate" => authenticate_info
         }
       end
 

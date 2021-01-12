@@ -1,12 +1,15 @@
+# frozen_string_literal: true
+
 module Doorkeeper
   class AccessToken < ActiveRecord::Base
+    belongs_to :resource, polymorphic: true
     self.table_name = "#{table_name_prefix}oauth_access_tokens#{table_name_suffix}".to_sym
 
     include AccessTokenMixin
     include ActiveModel::MassAssignmentSecurity if defined?(::ProtectedAttributes)
 
     belongs_to_options = {
-      class_name: 'Doorkeeper::Application',
+      class_name: "Doorkeeper::Application",
       inverse_of: :access_tokens
     }
 
@@ -37,11 +40,11 @@ module Doorkeeper
     #   active Access Tokens for Resource Owner
     #
     def self.active_for(resource_owner)
-      where(resource_owner_id: resource_owner.id, revoked_at: nil)
+      where(resource: resource_owner, revoked_at: nil)
     end
 
     def self.refresh_token_revoked_on_use?
-      column_names.include?('previous_refresh_token')
+      column_names.include?("previous_refresh_token")
     end
   end
 end

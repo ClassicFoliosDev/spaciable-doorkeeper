@@ -1,17 +1,84 @@
-AllCops:
-  Exclude:
-    - "spec/dummy/db/*"
+# Alliants Rubocop standards
 
-Metrics/BlockLength:
+inherit_from: .rubocop_todo.yml
+
+AllCops:
+  Include:
+    - Rakefile
+    - Gemfile
+    - config.ru
   Exclude:
+    - config/**/*
+    - db/**/*
+    - bin/**/*
+    - script/**/*
+    - vendor/**/*
+    - spec/**/*
+    - features/**/*
+    - lib/tasks/*
+    - Guardfile
+    - spec/dummy/db/*
+  TargetRubyVersion: 2.3
+
+Rails:
+  Enabled: true
+Rails/Delegate:
+  Enabled: true
+  Exclude:
+    - lib/**/*
+
+Style/IfUnlessModifier:
+  Enabled: true
+  Exclude:
+    - spec/spec_helper.rb
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+  Enabled: true
+Style/MethodName:
+  Exclude:
+    - features/support/fixtures/create_fixture.rb # ResourceName(resource, parent)
+    - app/services/bulk_plots/numbers.rb # Number(int_or_float)
+Style/YodaCondition:
+  Exclude:
+    - app/controllers/documents_controller.rb
+Layout/EndOfLine:
+  Exclude:
+    - app/services/csv/*
+Metrics/LineLength:
+  Max: 99
+  Enabled: true
+  Exclude:
+    - features/steps/**/*
+    - features/support/**/*
     - spec/**/*
 
 LineLength:
   Exclude:
     - spec/**/*
 
-StringLiterals:
-  Enabled: false
-
 TrailingBlankLines:
   Enabled: true
+
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*
+
+Documentation:
+  Enabled: false
+Metrics/MethodLength:
+  Enabled: true
+
+Style/RedundantReturn:
+  AllowMultipleReturnValues: true
+
+# Exclude auto-generated devise controllers
+Style/ClassAndModuleChildren:
+  Exclude:
+    - app/controllers/users/**
+
+# Exclude sessions controllers for after_sign_in_path_for(resource)
+# Used to define the dashboard/home path for analytical purposes
+Lint/UnusedMethodArgument:
+  Exclude:
+    - app/controllers/residents/sessions_controller.rb
+    - app/controllers/users/sessions_controller.rb

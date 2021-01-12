@@ -1,10 +1,12 @@
-require File.expand_path('boot', __dir__)
+# frozen_string_literal: true
 
-require 'rails/all'
+require File.expand_path("boot", __dir__)
+
+require "rails/all"
 
 Bundler.require(*Rails.groups)
 
-require 'yaml'
+require "yaml"
 
 orm = if DOORKEEPER_ORM =~ /mongoid/
         Mongoid.load!(File.join(File.dirname(File.expand_path(__FILE__)), "#{DOORKEEPER_ORM}.yml"))

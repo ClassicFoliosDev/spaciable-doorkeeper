@@ -50,7 +50,7 @@ module Doorkeeper
           response_type: response_type,
           scope: scope,
           client_name: client.name,
-          status: I18n.t('doorkeeper.pre_authorization.status')
+          status: I18n.t("doorkeeper.pre_authorization.status")
         }
       end
 
@@ -93,7 +93,7 @@ module Doorkeeper
       end
 
       def validate_code_challenge_method
-        !code_challenge.present? || (code_challenge_method.present? && code_challenge_method =~ /^plain$|^S256$/)
+        code_challenge.blank? || (code_challenge_method.present? && code_challenge_method =~ /^plain$|^S256$/)
       end
     end
   end

@@ -21,10 +21,10 @@ module Doorkeeper
         @original_scopes = parameters[:scope] || parameters[:scopes]
         @refresh_token_parameter = parameters[:refresh_token]
 
-        if credentials
-          @client = Application.by_uid_and_secret credentials.uid,
-                                                  credentials.secret
-        end
+        return unless credentials
+
+        @client = Application.by_uid_and_secret credentials.uid,
+                                                credentials.secret
       end
 
       private
@@ -55,7 +55,7 @@ module Doorkeeper
       def access_token_attributes
         {
           application_id: refresh_token.application_id,
-          resource_owner_id: refresh_token.resource_owner_id,
+          resource: refresh_token.resource,
           scopes: scopes.to_s,
           expires_in: access_token_expires_in,
           use_refresh_token: true

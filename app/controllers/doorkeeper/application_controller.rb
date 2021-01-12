@@ -8,7 +8,7 @@ module Doorkeeper
 
     unless Doorkeeper.configuration.api_only
       protect_from_forgery with: :exception
-      helper 'doorkeeper/dashboard'
+      helper "doorkeeper/dashboard"
     end
   end
 end

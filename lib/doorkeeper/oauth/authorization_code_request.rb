@@ -35,7 +35,7 @@ module Doorkeeper
 
           grant.revoke
           find_or_create_access_token(grant.application,
-                                      grant.resource_owner_id,
+                                      grant.resource,
                                       grant.scopes,
                                       server)
         end
@@ -44,7 +44,7 @@ module Doorkeeper
 
       def validate_attributes
         return false if grant && grant.uses_pkce? && code_verifier.blank?
-        return false if grant && !grant.pkce_supported? && !code_verifier.blank?
+        return false if grant && !grant.pkce_supported? && code_verifier.present?
         redirect_uri.present?
       end
 
@@ -70,9 +70,9 @@ module Doorkeeper
         return true unless grant.uses_pkce? || code_verifier
         return false unless grant.pkce_supported?
 
-        if grant.code_challenge_method == 'S256'
+        if grant.code_challenge_method == "S256"
           grant.code_challenge == AccessGrant.generate_code_challenge(code_verifier)
-        elsif grant.code_challenge_method == 'plain'
+        elsif grant.code_challenge_method == "plain"
           grant.code_challenge == code_verifier
         else
           false

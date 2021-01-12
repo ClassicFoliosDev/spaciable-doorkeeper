@@ -9,7 +9,7 @@ module Doorkeeper
             credentials_methods.inject(nil) do |_, method|
               method = self.method(method) if method.is_a?(Symbol)
               credentials = Credentials.new(*method.call(request))
-              break credentials unless credentials.blank?
+              break credentials if credentials.present?
             end
           end
 
@@ -19,9 +19,9 @@ module Doorkeeper
 
           def from_basic(request)
             authorization = request.authorization
-            if authorization.present? && authorization =~ /^Basic (.*)/m
-              Base64.decode64(Regexp.last_match(1)).split(/:/, 2)
-            end
+            return unless authorization.present? && authorization =~ /^Basic (.*)/m
+
+            Base64.decode64(Regexp.last_match(1)).split(/:/, 2)
           end
         end
 

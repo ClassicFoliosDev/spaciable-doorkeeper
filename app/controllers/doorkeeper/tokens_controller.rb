@@ -58,7 +58,7 @@ module Doorkeeper
     # https://tools.ietf.org/html/rfc6749#section-2.1
     # https://tools.ietf.org/html/rfc7009
     def authorized?
-      return unless token.present?
+      return if token.blank?
       # Client is confidential, therefore client authentication & authorization
       # is required
       if token.application_id? && token.application.confidential?
@@ -75,8 +75,8 @@ module Doorkeeper
     end
 
     def token
-      @token ||= AccessToken.by_token(request.POST['token']) ||
-        AccessToken.by_refresh_token(request.POST['token'])
+      @token ||= AccessToken.by_token(request.POST["token"]) ||
+                 AccessToken.by_refresh_token(request.POST["token"])
     end
 
     def strategy

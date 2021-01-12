@@ -39,7 +39,7 @@ module Doorkeeper
           return true if client_query.blank? && query.blank?
           return false if client_query.nil? || query.nil?
           # Will return true independent of query order
-          client_query.split('&').sort == query.split('&').sort
+          client_query.split("&").sort == query.split("&").sort
         end
 
         def self.native_uri?(url)

@@ -48,7 +48,7 @@ module Doorkeeper
       #
       def revoke_all_for(application_id, resource_owner, clock = Time)
         where(application_id: application_id,
-              resource_owner_id: resource_owner.id,
+              resource: resource_owner,
               revoked_at: nil)
           .update_all(revoked_at: clock.now.utc)
       end
@@ -66,14 +66,8 @@ module Doorkeeper
       # @return [Doorkeeper::AccessToken, nil] Access Token instance or
       #   nil if matching record was not found
       #
-      def matching_token_for(application, resource_owner_or_id, scopes)
-        resource_owner_id = if resource_owner_or_id.respond_to?(:to_key)
-                              resource_owner_or_id.id
-                            else
-                              resource_owner_or_id
-                            end
-
-        tokens = authorized_tokens_for(application.try(:id), resource_owner_id)
+      def matching_token_for(application, resource_owner, scopes)
+        tokens = authorized_tokens_for(application.try(:id), resource_owner)
         tokens.detect do |token|
           scopes_match?(token.scopes, scopes, application.try(:scopes))
         end
@@ -121,16 +115,16 @@ module Doorkeeper
       #
       # @return [Doorkeeper::AccessToken] existing record or a new one
       #
-      def find_or_create_for(application, resource_owner_id, scopes, expires_in, use_refresh_token)
+      def find_or_create_for(application, resource_owner, scopes, expires_in, use_refresh_token)
         if Doorkeeper.configuration.reuse_access_token
-          access_token = matching_token_for(application, resource_owner_id, scopes)
+          access_token = matching_token_for(application, resource_owner, scopes)
 
           return access_token if access_token && !access_token.expired?
         end
 
         create!(
           application_id:    application.try(:id),
-          resource_owner_id: resource_owner_id,
+          resource: resource_owner,
           scopes:            scopes.to_s,
           expires_in:        expires_in,
           use_refresh_token: use_refresh_token
@@ -142,15 +136,15 @@ module Doorkeeper
       #
       # @param application_id [Integer]
       #   ID of the Application model instance
-      # @param resource_owner_id [Integer]
+      # @param resource_owner
       #   ID of the Resource Owner model instance
       #
       # @return [Doorkeeper::AccessToken] array of matching AccessToken objects
       #
-      def authorized_tokens_for(application_id, resource_owner_id)
+      def authorized_tokens_for(application_id, resource_owner)
         ordered_by(:created_at, :desc)
           .where(application_id: application_id,
-                 resource_owner_id: resource_owner_id,
+                 resource: resource_owner,
                  revoked_at: nil)
       end
 
@@ -165,8 +159,8 @@ module Doorkeeper
       # @return [Doorkeeper::AccessToken, nil] matching AccessToken object or
       #   nil if nothing was found
       #
-      def last_authorized_token_for(application_id, resource_owner_id)
-        authorized_tokens_for(application_id, resource_owner_id).first
+      def last_authorized_token_for(application_id, resource_owner)
+        authorized_tokens_for(application_id, resource_owner).first
       end
     end
 
@@ -175,7 +169,7 @@ module Doorkeeper
     #   The OAuth 2.0 Authorization Framework: Bearer Token Usage
     #
     def token_type
-      'Bearer'
+      "Bearer"
     end
 
     def use_refresh_token?
@@ -188,7 +182,8 @@ module Doorkeeper
     # @return [Hash] hash with token data
     def as_json(_options = {})
       {
-        resource_owner_id:  resource_owner_id,
+        resource_id:        resource_id,
+        resource_type:      resource_type,
         scope:              scopes,
         expires_in:         expires_in_seconds,
         application:        { uid: application.try(:uid) },
@@ -205,7 +200,7 @@ module Doorkeeper
     #
     def same_credential?(access_token)
       application_id == access_token.application_id &&
-        resource_owner_id == access_token.resource_owner_id
+        resource_owner == access_token.resource
     end
 
     # Indicates if token is acceptable for specific scopes.
@@ -243,7 +238,8 @@ module Doorkeeper
       self.created_at ||= Time.now.utc
 
       self.token = token_generator.generate(
-        resource_owner_id: resource_owner_id,
+        resource_id: resource_id,
+        resource_type: resource_type,
         scopes: scopes,
         application: application,
         expires_in: expires_in,

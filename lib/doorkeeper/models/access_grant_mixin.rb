@@ -43,7 +43,7 @@ module Doorkeeper
       #
       def revoke_all_for(application_id, resource_owner, clock = Time)
         where(application_id: application_id,
-              resource_owner_id: resource_owner.id,
+              resource: resource_owner,
               revoked_at: nil)
           .update_all(revoked_at: clock.now.utc)
       end
@@ -62,9 +62,9 @@ module Doorkeeper
       #   static string base64urlencode(byte [] arg)
       #   {
       #       string s = Convert.ToBase64String(arg); // Regular base64 encoder
-      #       s = s.Split('=')[0]; // Remove any trailing '='s
-      #       s = s.Replace('+', '-'); // 62nd char of encoding
-      #       s = s.Replace('/', '_'); // 63rd char of encoding
+      #       s = s.Split("=")[0]; // Remove any trailing "="s
+      #       s = s.Replace("+", "-"); // 62nd char of encoding
+      #       s = s.Replace("/", "_"); // 63rd char of encoding
       #       return s;
       #   }
       #
@@ -81,14 +81,14 @@ module Doorkeeper
       # urlsafe_encode64(bin)
       # Returns the Base64-encoded version of bin. This method complies with
       # "Base 64 Encoding with URL and Filename Safe Alphabet" in RFC 4648.
-      # The alphabet uses '-' instead of '+' and '_' instead of '/'.
+      # The alphabet uses "-" instead of "+" and "_" instead of "/".
 
       # @param code_verifier [#to_s] a one time use value (any object that responds to `#to_s`)
       #
       # @return [#to_s] An encoded code challenge based on the provided verifier suitable for PKCE validation
       def generate_code_challenge(code_verifier)
         padded_result = Base64.urlsafe_encode64(Digest::SHA256.digest(code_verifier))
-        padded_result.split('=')[0] # Remove any trailing '='
+        padded_result.split("=")[0] # Remove any trailing "="
       end
 
       def pkce_supported?
