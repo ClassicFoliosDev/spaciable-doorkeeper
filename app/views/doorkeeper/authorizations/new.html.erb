@@ -1,44 +1,46 @@
-<header class="page-header" role="banner">
-  <h1><%= t('.title') %></h1>
-</header>
-
-<main role="main">
-  <p class="h4">
-    <%= raw t('.prompt', client_name: content_tag(:strong, class: 'text-info') { @pre_auth.client.name }) %>
-  </p>
-
-  <% if @pre_auth.scopes.count > 0 %>
-    <div id="oauth-permissions">
-      <p><%= t('.able_to') %>:</p>
-
-      <ul class="text-info">
-        <% @pre_auth.scopes.each do |scope| %>
-          <li><%= t scope, scope: [:doorkeeper, :scopes] %></li>
-        <% end %>
-      </ul>
+<div class="auth">
+  <div class="header-bar">
+    <div class="logo">
+      <img src=<%= path_to_image('Spaciable_full.svg')%>>
     </div>
-  <% end %>
-
-  <div class="actions">
-    <%= form_tag oauth_authorization_path, method: :post do %>
-      <%= hidden_field_tag :client_id, @pre_auth.client.uid %>
-      <%= hidden_field_tag :redirect_uri, @pre_auth.redirect_uri %>
-      <%= hidden_field_tag :state, @pre_auth.state %>
-      <%= hidden_field_tag :response_type, @pre_auth.response_type %>
-      <%= hidden_field_tag :scope, @pre_auth.scope %>
-      <%= hidden_field_tag :code_challenge, @pre_auth.code_challenge %>
-      <%= hidden_field_tag :code_challenge_method, @pre_auth.code_challenge_method %>
-      <%= submit_tag t('doorkeeper.authorizations.buttons.authorize'), class: "btn btn-success btn-lg btn-block" %>
-    <% end %>
-    <%= form_tag oauth_authorization_path, method: :delete do %>
-      <%= hidden_field_tag :client_id, @pre_auth.client.uid %>
-      <%= hidden_field_tag :redirect_uri, @pre_auth.redirect_uri %>
-      <%= hidden_field_tag :state, @pre_auth.state %>
-      <%= hidden_field_tag :response_type, @pre_auth.response_type %>
-      <%= hidden_field_tag :scope, @pre_auth.scope %>
-      <%= hidden_field_tag :code_challenge, @pre_auth.code_challenge %>
-      <%= hidden_field_tag :code_challenge_method, @pre_auth.code_challenge_method %>
-      <%= submit_tag t('doorkeeper.authorizations.buttons.deny'), class: "btn btn-danger btn-lg btn-block" %>
-    <% end %>
+   
   </div>
-</main>
+
+  <div class="body">
+    <H4><%= @pre_auth.client.application.name%></H4>
+    <br/>
+    <p>This application will gain access to the following details of your spaciable account:</p>
+    <div class="bar">
+      <p><%= @pre_auth.client.application.description%></p>
+    </div>
+    <div class="bar">
+      <p>These details will be treated in line with the terms of service and privacy policies of both companies</p>
+    </div>
+    <div>
+      <div class="form accept">
+        <%= form_tag oauth_authorization_path, method: :post do %>
+          <%= hidden_field_tag :client_id, @pre_auth.client.uid %>
+          <%= hidden_field_tag :redirect_uri, @pre_auth.redirect_uri %>
+          <%= hidden_field_tag :state, @pre_auth.state %>
+          <%= hidden_field_tag :response_type, @pre_auth.response_type %>
+          <%= hidden_field_tag :scope, @pre_auth.scope %>
+          <%= hidden_field_tag :code_challenge, @pre_auth.code_challenge %>
+          <%= hidden_field_tag :code_challenge_method, @pre_auth.code_challenge_method %>
+          <%= submit_tag t('doorkeeper.authorizations.buttons.authorize'), class: "btn" %>
+        <% end %>
+      </div>
+      <div class="form cancel">
+        <%= form_tag oauth_authorization_path, method: :delete do %>
+          <%= hidden_field_tag :client_id, @pre_auth.client.uid %>
+          <%= hidden_field_tag :redirect_uri, @pre_auth.redirect_uri %>
+          <%= hidden_field_tag :state, @pre_auth.state %>
+          <%= hidden_field_tag :response_type, @pre_auth.response_type %>
+          <%= hidden_field_tag :scope, @pre_auth.scope %>
+          <%= hidden_field_tag :code_challenge, @pre_auth.code_challenge %>
+          <%= hidden_field_tag :code_challenge_method, @pre_auth.code_challenge_method %>
+          <%= submit_tag t('doorkeeper.authorizations.buttons.deny'), class: "btn btn-inverted" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

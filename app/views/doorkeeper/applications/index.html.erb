@@ -9,6 +9,7 @@
   <tr>
     <th><%= t('.name') %></th>
     <th><%= t('.callback_url') %></th>
+    <th><%= t('.scope') %></th>
     <th><%= t('.confidential') %></th>
     <th><%= t('.actions') %></th>
     <th></th>
@@ -22,6 +23,9 @@
       </td>
       <td class="align-middle">
         <%= simple_format(application.redirect_uri) %>
+      </td>
+      <td class="align-middle">
+        <%= application.scopes %>
       </td>
       <td class="align-middle">
         <%= application.confidential? ? t('doorkeeper.applications.index.confidentiality.yes') : t('doorkeeper.applications.index.confidentiality.no') %>

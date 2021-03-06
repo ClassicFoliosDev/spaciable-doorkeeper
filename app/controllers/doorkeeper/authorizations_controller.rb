@@ -29,7 +29,7 @@ module Doorkeeper
       elsif Doorkeeper.configuration.api_only
         render json: pre_auth
       else
-        render :new
+        render :new, :layout => "spaciable"
       end
     end
 
