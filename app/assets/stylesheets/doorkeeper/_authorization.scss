@@ -1,7 +1,202 @@
+//Primary color Palette
+$primary-red: #F7525E;
+$default-text-color: #002A3A;
+$primary-yellow: #FFC85D;
+$primary-green: #59B8AE;
+
+//spaciable
+$primary-red-left: #FF293F;
+$primary-red-right: #F60059;
 $primary-navy: #002A3A;
+$primary-black: #222222;
+$pale-navy: #c5d1d6;
+$semi-pale-navy: #7b929c;
+$primary-background: $primary-red;
+
+//UI Palette
+$ui-white: #FFFFFF;
+$ui-superlight-grey: #FAFAFA;
+$ui-light-grey: #F4F4F4;
+$ui-grey: #EAEAEA;
+$ui-dark-grey: #B3B5B7;
+$ui-black: #252C31;
+$ui-selected: #66FF66;
+
+//Spacing
+$spacing-large: 38px;
+$spacing-medium: 22px;
+$spacing-small: 10px;
+
+@font-face {
+  font-family: 'ITCAvantGardeStd-Bk';
+  src: url(asset-path('fonts/ITCAvantGardeStd-Bk.ttf')) format('truetype');
+  font-family: 'Poppins-SemiBold';
+  src: url(asset-path('fonts/Poppins-SemiBold.ttf')) format('truetype');
+  font-family: 'ITCAvantGardeGothicMedium';
+  src:font-url(asset-path('fonts/ITCAvantGardeGothicMedium.otf')) format('opentype')
+  }
+
+$base-font-family: 'ITCAvantGarde', 'ITCAvantGardeStd-Bk', 'ITCAvantGardeGothicMedium', 'Poppins-SemiBold', CenturyGothic, AppleGothic, sans-serif;
+$medium-font-family: 'ITCAvantGarde', 'ITCAvantGardeStd-Bk', 'ITCAvantGardeGothicMedium', 'Poppins-SemiBold', CenturyGothic, AppleGothic, sans-serif;
+$header-font-family: 'ITCAvantGarde', 'ITCAvantGardeStd-Bk', 'ITCAvantGardeGothicMedium', 'Poppins-SemiBold', CenturyGothic, AppleGothic, sans-serif;
+$base-small-font-size: 12px;
+$base-font-size: 14px;
+$base-font-line-height: 22px;
+$base-small-font-line-height: 18px;
+$base-font-weight: 400;
+$ultra-small-font: 10px;
+
+$bold-font-weight: 700;
+$semi-bold-font-weight: 600;
+$icon-font-line-height: 28px;
+
+$title-font-size-1: 38px;
+$title-font-size-2: 28px;
+$title-font-size-3: 20px;
+$title-font-size-4: 18px;
+$title-font-size-5: 16px;
+
+$title-margin-large:  0 0 $spacing-large;
+$title-margin-medium: 0 0 $spacing-medium;
+$title-margin-small: 0 0 $spacing-small;
+
+$font-title-color: $primary-navy;
+$font-copy-color: $primary-navy;
+$font-link-color: $primary-background;
+
+$paragraph-padding: 0;
+$paragraph-margin: 0 0 $spacing-medium;
+
+$list-padding: 0;
+$list-margin: 0 0 $spacing-medium;
+
+$list-title-padding: 0;
+$list-title-margin: 0 0 $spacing-small;
+$list-title-color: $default-text-color;
+$list-item-padding: 0;
+$list-item-margin: 0;
+
+body {
+  font-family: $base-font-family;
+}
+
+// Title Styles
+h1, h2, h3, h4, h5 {
+  color: $font-title-color;
+  font-weight: $bold-font-weight;
+}
+
+h1, h2, h3, .btn, .branded-btn, .branded-btn-inverted {
+  font-family: $header-font-family;
+}
+
+h4, h5 {
+  font-family: $medium-font-family;
+}
+
+h1 {
+  font-size: $title-font-size-1;
+  margin: $title-margin-large;
+}
+h2 {
+  font-size: $title-font-size-2;
+  margin: $title-margin-medium;
+}
+h3 {
+  font-size: $title-font-size-3;
+  margin: $title-margin-medium;
+}
+h4 {
+  font-size: $title-font-size-4;
+  margin: $title-margin-medium;
+}
+h5 {
+  font-size: $title-font-size-5;
+  margin: $title-margin-small;
+}
+
+.branded-left-text h2 {
+  color: $primary-red-left;
+  margin-bottom: $spacing-small;
+}
+
+.preamble .content p {
+  color: $ui-white;
+  font-weight: $bold-font-weight;
+}
+
+.preamble .content li {
+  color: $ui-white;
+}
+
+
+//Paragraph Styles
+p {
+  padding: $paragraph-padding;
+  margin: $paragraph-margin;
+  color: $font-copy-color;
+  font-size: $base-font-size;
+  line-height: $base-font-line-height;
+  font-weight: $base-font-weight;
+  font-family: $base-font-family;
+}
+
+//List Styles
+ul,
+ol,
+dl {
+  padding: $list-padding;
+  margin: $list-margin;
+  font-family: $base-font-family;
+}
+
+li {
+  padding: $list-item-padding;
+  margin: $list-item-margin;
+  font-size: $base-font-size;
+  line-height: $base-font-line-height;
+  font-weight: $base-font-weight;
+  list-style-position: outside;
+}
+
+dt {
+  display: list-item;
+  color: $list-title-color;
+  padding: $list-item-padding;
+  margin: $list-item-margin;
+  font-size: $base-font-size;
+  line-height: $base-font-line-height;
+  font-weight: $base-font-weight;
+}
+
+dd {
+  display: list-item;
+  padding: $list-item-padding;
+  margin: $list-item-margin;
+  list-style-type: disc;
+  font-size: $base-font-size;
+  line-height: $base-font-line-height;
+  font-weight: $base-font-weight;
+  color: $font-copy-color;
+}
+
+//Link Styles
+
+a {
+  font-size: $base-font-size;
+  line-height: $base-font-line-height;
+  font-weight: $base-font-weight;
+  font-family: $base-font-family;
+}
+
+.larger {
+  font-size: 19px;
+}
+
 
 .spaciable {
   background-color: white;
+  color: $primary-navy;
 }
 
 .auth {
@@ -46,12 +241,12 @@ $primary-navy: #002A3A;
 	  border-radius: 5px;
 	  background-color: $primary-navy;
 	  color: #FFFFFF;
+	}
 
-	  &:hover {
+	.btn:hover {
 	    border: 1px solid $primary-navy;
   	    background-color: #FFFFFF;
 	    color: $primary-navy;
-	  }
 	}
 
     .btn-inverted {
@@ -61,13 +256,14 @@ $primary-navy: #002A3A;
 	  background-color: #FFFFFF;
 	  color: $primary-navy;
 
-	  &:hover {
-  	    border: 1px solid #FFFFFF;
-	    background-color: $primary-navy;
-	    color: #FFFFFF;
-	  }
+	 
 	}
 
+	.btn-inverted:hover {
+  	  border: 1px solid #FFFFFF;
+	  background-color: $primary-navy;
+	  color: #FFFFFF;
+	}
 
 	.form {
 		display: inline-block;
@@ -77,6 +273,19 @@ $primary-navy: #002A3A;
       	padding-right: 20px;
       }
 	}
-
-
 }
+
+@media (max-width: 480px) {
+  .auth .form, .auth .form.cancel {
+    display: inline;
+	float: none;
+	width: 100%;
+	padding-bottom: 20px;
+  }
+
+  .auth .btn {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+}
+

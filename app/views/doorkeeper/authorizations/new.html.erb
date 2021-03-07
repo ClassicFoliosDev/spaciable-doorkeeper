@@ -7,13 +7,13 @@
   </div>
 
   <div class="body">
-    <H4><%= @pre_auth.client.application.name%></H4>
+    <H1><%= @pre_auth.client.application.name%></H1>
     <br/>
     <p>This application will gain access to the following details of your spaciable account:</p>
     <div class="bar">
-      <p><%= @pre_auth.client.application.description%></p>
+      <p><%= simple_format(@pre_auth.client.application.description) %></p>
     </div>
-    <div class="bar">
+    <div class="bar" style="opacity:80%">
       <p>These details will be treated in line with the terms of service and privacy policies of both companies</p>
     </div>
     <div>
