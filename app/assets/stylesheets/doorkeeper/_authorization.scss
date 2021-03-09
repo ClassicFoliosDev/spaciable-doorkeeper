@@ -202,7 +202,7 @@ a {
 .auth {
 	
 	img {
-	  max-height: 100px;
+	  max-height: 75px;
 	  width: auto;
 	  margin: auto;
 	}
@@ -286,6 +286,10 @@ a {
   .auth .btn {
     width: 100%;
     margin-bottom: 5px;
+  }
+
+  .auth img {
+    height: 30px;
   }
 }
 
