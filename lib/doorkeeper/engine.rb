@@ -17,7 +17,7 @@ module Doorkeeper
       end
     end
 
-    if defined?(Sprockets) && Sprockets::VERSION.chr.to_i >= 4
+    #if defined?(Sprockets) && Sprockets::VERSION.chr.to_i >= 4
       initializer "doorkeeper.assets.precompile" do |app|
         # Force users to use:
         #    //= link doorkeeper/admin/application.css
@@ -26,8 +26,9 @@ module Doorkeeper
         app.config.assets.precompile += %w[
           doorkeeper/application.css
           doorkeeper/admin/application.css
+          doorkeeper/_authorization.scss
         ]
       end
-    end
+    #end
   end
 end
